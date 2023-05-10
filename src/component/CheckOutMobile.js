@@ -18,7 +18,7 @@ class MakePayment extends Component {
 
     goToCheckout() {
         return this.state.stripe.redirectToCheckout({
-            sessionId: session.sessionId,
+            sessionId: this.state.sessionId,
         });
     }
 
