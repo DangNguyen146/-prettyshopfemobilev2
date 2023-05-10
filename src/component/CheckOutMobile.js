@@ -11,6 +11,7 @@ class MakePayment extends Component {
             token: this.props.match.params.token,
             sessionId: null,
             checkoutBodyArray: [],
+            loading: false
         };
     }
 
@@ -38,8 +39,6 @@ class MakePayment extends Component {
                                 },
                             ],
                         }));
-                 
-
                 }
             })
             .catch((err) => {
@@ -48,6 +47,7 @@ class MakePayment extends Component {
     }
 
     goToCheckout() {
+        this.setState({ loading: true });
         axios
             .post(
                 apiUrl + 'order/create-checkout-session',
@@ -55,6 +55,7 @@ class MakePayment extends Component {
             )
             .then((response) => {
                 // localStorage.setItem('sessionId', response.data.sessionId);
+                this.setState({ loading: false });
                 return response.data;
             })
             .then((session) => {
@@ -73,7 +74,7 @@ class MakePayment extends Component {
 
     render() {
         return (
-            <div className="container text-center bg-dark text-light">
+            <div className="container text-center ">
                 <h1>You will be redirected to payment page</h1>
 
                 <div className="alert alert-primary w-100 text-center">
@@ -85,9 +86,18 @@ class MakePayment extends Component {
                     className="btn btn-success"
                     id="proceed-to-checkout"
                     onClick={this.goToCheckout.bind(this)}
+                    disabled={this.state.loading}
                 >
-                    Make payment
+                    {this.state.loading ? (
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    ) : (
+                        'Make payment'
+                    )}
+
                 </button>
+
             </div>
         );
     }
