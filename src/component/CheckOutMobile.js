@@ -86,7 +86,7 @@ class MakePayment extends Component {
                     className="btn btn-success"
                     id="proceed-to-checkout"
                     onClick={this.goToCheckout.bind(this)}
-                    disabled={this.state.loading}
+                    // disabled={this.state.loading}
                 >
                     {this.state.loading ? (
                         <div class="spinner-border" role="status">
