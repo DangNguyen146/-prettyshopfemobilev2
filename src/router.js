@@ -6,7 +6,7 @@ import MobileCheckouFalse from './component/MobileCheckouFalse.js';
 function AppRouter() {
   return (
     <Switch>
-      <Route exact path="/checkoutmobile/:token" component={CheckOutMobile} />
+      <Route exact path="/checkoutmobile/:sessionId" component={CheckOutMobile} />
       <Route exact path="payment/success" component={MobileCheckouTrue} />
       <Route exact path="payment/failed" component={MobileCheckouFalse} />
     </Switch>

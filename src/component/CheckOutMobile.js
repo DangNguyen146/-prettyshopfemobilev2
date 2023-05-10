@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { apiUrl } from "./../config/config";
+
 
 class MakePayment extends Component {
     constructor(props) {
@@ -8,8 +7,7 @@ class MakePayment extends Component {
         this.state = {
             stripeAPIToken: "pk_test_51N2ZUwGbNfGYxOL2iWVl4sOW60Np5jHOIMGdochH1tTyxvKWJ1nwRdsPGiYSQDCQPOKeaU4DA1jpolRDd6NIvZD800wlKgggv1",
             stripe: '',
-            token: this.props.match.params.token,
-            sessionId: null,
+            sessionId: this.props.match.params.sessionId,
             checkoutBodyArray: [],
             loading: false
         };
@@ -17,56 +15,14 @@ class MakePayment extends Component {
 
     configureStripe() { }
 
-    getAllItems() {
-        axios
-            .get(`${apiUrl}cart/?token=${this.state.token}`)
-            .then((response) => {
-                if (response.status === 200) {
-                    let products = response.data;
-                    console.log(products);
-                    let len = Object.keys(products.cartItems).length;
-                    for (let i = 0; i < len; i++)
-                        this.setState((prevState) => ({
-                            checkoutBodyArray: [
-                                ...prevState.checkoutBodyArray,
-                                {
-                                    imageUrl: products.cartItems[i].product.imageURL,
-                                    productName: products.cartItems[i].product.name,
-                                    quantity: products.cartItems[i].quantity,
-                                    price: products.cartItems[i].product.price,
-                                    productId: products.cartItems[i].product.id,
-                                    userId: products.cartItems[i].userId,
-                                },
-                            ],
-                        }));
-                }
-            })
-            .catch((err) => {
-                // console.log(err);
-            });
-    }
 
     goToCheckout() {
-        this.setState({ loading: true });
-        axios
-            .post(
-                apiUrl + 'order/create-checkout-session',
-                this.state.checkoutBodyArray
-            )
-            .then((response) => {
-                localStorage.setItem('sessionId', response.data.sessionId);
-                this.setState({ loading: false });
-                return response.data;
-            })
-            .then((session) => {
-                return this.state.stripe.redirectToCheckout({
-                    sessionId: session.sessionId,
-                });
-            });
+        return this.state.stripe.redirectToCheckout({
+            sessionId: session.sessionId,
+        });
     }
 
     componentDidMount() {
-        this.getAllItems();
         this.setState({
             stripe: window.Stripe(this.state.stripeAPIToken),
         });
@@ -86,7 +42,7 @@ class MakePayment extends Component {
                     className="btn btn-success"
                     id="proceed-to-checkout"
                     onClick={this.goToCheckout.bind(this)}
-                    // disabled={this.state.loading}
+                    disabled={this.state.loading}
                 >
                     {this.state.loading ? (
                         <div class="spinner-border" role="status">
