@@ -38,12 +38,25 @@ class MakePayment extends Component {
                                 },
                             ],
                         }));
+                        axios
+                        .post(
+                            apiUrl + 'order/create-checkout-session',
+                            this.state.checkoutBodyArray
+                        )
+                        .then((response) => {
+                            localStorage.setItem('sessionId', response.data.sessionId);
+                            return response.data;
+                        })
+                        .then((session) => {
+                            return this.state.stripe.redirectToCheckout({
+                                sessionId: session.sessionId,
+                            });
+                        });
 
                 }
-                console.log(this.state.checkoutBodyArray);
             })
             .catch((err) => {
-                console.log(err);
+                // console.log(err);
             });
     }
 
