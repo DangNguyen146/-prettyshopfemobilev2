@@ -4,7 +4,7 @@ class SuccessPayment extends Component {
   render() {
     return (
       <div className="text-center">
-        <div className="spinner-border" role="status">
+        <div className="text-success" role="status">
           <h1>Pay success, please back home</h1>
           <p>Thanks!</p>
         </div>
