@@ -7,8 +7,8 @@ function AppRouter() {
   return (
     <Switch>
       <Route exact path="/checkoutmobile/:sessionId" component={CheckOutMobile} />
-      <Route exact path="payment/success" component={MobileCheckouTrue} />
-      <Route exact path="payment/failed" component={MobileCheckouFalse} />
+      <Route exact path="/payment/success" component={MobileCheckouTrue} />
+      <Route exact path="/payment/failed" component={MobileCheckouFalse} />
     </Switch>
   );
 }
