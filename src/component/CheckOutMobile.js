@@ -54,7 +54,7 @@ class MakePayment extends Component {
                 this.state.checkoutBodyArray
             )
             .then((response) => {
-                // localStorage.setItem('sessionId', response.data.sessionId);
+                localStorage.setItem('sessionId', response.data.sessionId);
                 this.setState({ loading: false });
                 return response.data;
             })
